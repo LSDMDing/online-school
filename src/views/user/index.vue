@@ -1,10 +1,18 @@
 <template>
-  
+  <div>
+      <BottomNav></BottomNav>
+  </div>
 </template>
 
 <script>
-export default {
 
+import BottomNav from '@/components/common/BottomNav'
+
+export default {
+  name: 'user',
+  components: {
+    BottomNav
+  }
 }
 </script>
 

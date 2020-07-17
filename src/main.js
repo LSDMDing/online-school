@@ -7,7 +7,12 @@ import store from './store'
 import '../public/css/ormalize.css'
 
 //引入flexible
-import 'lib-flexible/flexible'
+import 'lib-flexible/flexible.js'
+
+import VueAwesomeSwiper from 'vue-awesome-swiper'
+import 'swiper/swiper-bundle.css'
+
+Vue.use(VueAwesomeSwiper)
 
 Vue.config.productionTip = false
 
