@@ -14,6 +14,15 @@ import 'swiper/swiper-bundle.css'
 
 Vue.use(VueAwesomeSwiper)
 
+//mockjs
+import Mock from './mock'
+
+//filter
+import * as filters from './filter'
+Object.keys(filters).forEach((key)=> {
+  Vue.filter(key, filters[key])
+})
+
 Vue.config.productionTip = false
 
 new Vue({

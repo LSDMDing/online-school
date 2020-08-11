@@ -21,10 +21,10 @@
         <swiper-slide class="swiper-slide content" v-for="(item,index) in categoryArr" :key="index">
           <div class="img">
             <a :href="'#'+item.cid">
-              <img :src="item.imgIcon" />
+              <img :src="item.imgIcon[index]" />
             </a>
           </div>
-          <p class="title">{{item.title}}</p>
+          <p class="title">{{item.title[index]}}</p>
         </swiper-slide>
         <!-- 分页器 -->
         
@@ -33,17 +33,17 @@
     </div>
     <div class="main-course">
       <h1>精品课程</h1>
-      <div class="course-list" v-for="item in categoryArr" :key="item.cid">
-        <p class="cate-title" :id="item.cid">{{item.title}}</p>
+      <div class="course-list" v-for="(item,index) in categoryArr" :key="index">
+        <p class="cate-title" :id="item.cid">{{item.title[index]}}</p>
         <div class="list-box" v-for="courseItem in item.courseList" :key="courseItem.id">
           <div class="img">
             <img :src="courseItem.fmimg" />
           </div>
           <div class="info">
-            <p class="name">{{courseItem.name}}</p>
+            <p class="name">{{item.title[index]}}{{courseItem.name}}</p>
             <p class="subject">{{courseItem.subject}} <span class="hour">| 共{{courseItem.hour}}课时</span></p>
-            <p class="price">￥{{courseItem.price}}</p>
-            <p class="hits">{{courseItem.hits}}已报名</p>
+            <p class="price">￥{{courseItem.price | coursePrice(item.cid)}}</p>
+            <p class="hits">{{courseItem.hits}} 人已报名</p>
           </div>
         </div>
       </div>
@@ -57,6 +57,7 @@
 // @ is an alias to /src
 import Header from "@/components/common/Header";
 import BottomNav from "@/components/common/BottomNav";
+import Axios from 'axios'
 
 export default {
   name: "Home",
@@ -267,6 +268,27 @@ export default {
         },
       ]
     };
+  },
+  mounted () {
+    Axios.post('/api/course').then((res) => {
+      if(res.data.msg == 'ok'){
+        console.log(res);
+        this.categoryArr = res.data.list
+        console.log(this.categoryArr);
+      }
+    }).catch((err) => {
+
+    })
+  },
+  computed: {
+    course : function () {
+      this.categoryArr.forEach(element => {
+        if(element.title[0]){
+          element.courseList.price = 0;
+        } 
+      });
+      return this.categoryArr;
+    }
   }
 };
 </script>
